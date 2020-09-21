@@ -6,7 +6,7 @@ This is the third course of the deep learning specialization at [Coursera](https
 
 ## Table of contents
 
-* [Structuring Machine Learning Projects](structuring-machine-learning-projects)
+* [Structuring Machine Learning Project](#structuring-machine-learning-projects)
    * [Table of contents](#table-of-contents)
    * [Course summary](#course-summary)
    * [ML Strategy 1](#ml-strategy-1)
