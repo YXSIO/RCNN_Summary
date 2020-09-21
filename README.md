@@ -1,6 +1,6 @@
 # RCNN_Summary
 
-This is the summary of the KaiKeBa course R-CNN, fast RCNN and faster RCNN.
+This is the summary of the KaiKeBa course R-CNN, fast RCNN and faster RCNN. Here is the [link]() for the details of the RCNN related algorithms. 
 
 ## Table of contents
 
@@ -8,11 +8,14 @@ This is the summary of the KaiKeBa course R-CNN, fast RCNN and faster RCNN.
    * [Table of contents](#table-of-contents)
    * [Course summary](#course-summary)
    * [Regional CNN](#Regional-CNN)
+      * [Basic idea](#Basic-idea)
       * [Four major components](#Four-major-components)
+      * [To improve](#To-improve)
    * [Fast RCNN](#Fast-RCNN)
+      * [To improve](#To-improve)
       * [Single number evaluation metric](#Single-number-evaluation-metric)
    * [Faster RCNN](#Faster-RCNN)
-   	  * [Multi-task learning](#Multi-task-learning)
+   	  * [To improve](#To-improve)
       
 ## Course summary
 
@@ -23,37 +26,74 @@ Here are the course summary as its given on the course [link](https://www.course
 > Further, to understand how attention works in CV is another aspect to make your CV knowledge to a new level. 
 
 ## Regional CNN
+### Basic idea
+- To identify(SVM) and modify(regressor) the candidates regions(SS). 
+- Sliding window + classifier: The detection system is built on classifier. However, this design is very computationally intensive. 
 
 ### Four major components
 - Selection search
 	1. Design the bb candidate: Selection search: segmentation -> greedy algo: similarity for neighbours
-	2. SS mainly find the candidate bounding box
+	2. SS mainly find the 2000 candidate bounding boxes. 
+	3. How to measure the similarity of each region: 
+		- The feature for each region consists of color, texture, size which are measured by histogram.  
 	
 - CNN feature extraction
-	1. Classifier: cbrp32: input(image) and output(one hot )
-	2. Alexnet
+	1. Alexnet is used as the classifier to extract CNN features. 
+	2. CBRP32: convolution, batch normalization, relu and pooling with 32 channels. 
+	3. Feature extraction: 2000 computation to calculate the Pool5 and FC7 for each candidate regions. 
+	
 - SVM classifier
 	1. Training the classifer involve nagative and positive data preparation
+	2. From the 2000 candidates, if there are 3 classes. Then 2000*3 SVM.
+		- As a result, there are 100 heads, hulu 88 and mountain 45. 
+	3. Then apply NMS to further eliminate the number: head 7, hulu 7 and mountain 5.
+	4. NMS: How to reduce the redundant bb? 
+		- Find the most confident bb with the highest confidence. 
+		- Then suppress the BBs who overlaps with the select max. 
+		- Iterative over the rest of the BBs. 
+	
 - Bounding box regression
 	1. Detection: boundiung box location: tranverse all the location and size of the bounding boxes
 	2. Finding good bb candidante could improve the efficiency 
+	3. Different class correspond to different LR, since each class has different feature maps.
+	4. For each class, use the extracted feature as x and train four different LR. 
+	5. Why use pooling5? Answer: pooling maintain the relative pixel relationship. 
+	6. The central element of Pooling 5 has nearly global view for the original image. 
 
+### To improve
+- Slide window will be replaced by selective search and classifier will be replaced by CNN feature and SVM.
 
 ## Fast RCNN
-### Single number evaluation metric
 
-- Its better and faster to set a single number evaluation metric for your project before you start it.
-- Difference between precision and recall (in cat classification example):
-  - Suppose we run the classifier on 10 images which are 5 cats and 5 non-cats. The classifier identifies that there are 4 cats, but it identified 1 wrong cat.
-  - Confusion matrix:
+### Key idea
+- 联合计算：将各个component combine together.
+
+### To improve
+- Based on the 2000 candidate regions, try to improve the computation
+- Through ROIPooling, combine CNN, SVM and regression
+- Reduce the CNN computation: extract the region on the final feature map of the entire image. However, each image need size normalization before training. 
+	1. Design a flexible pooling to resize the image into the same size. 
+	2. Implement through ROI pooling: sampling. 
+- Cannot reduce the number of candidate e.g.: 2000. 
+
+### Details:
+- VGG replace the previous AlexNet
+- Use IOU to identify the label of the candidate bb. Not all the 2000 are used for training. 
+- Only 64 regions are selected from each image. 
+- Batch = 128 = 64*2. The ration of positive and negative samples are 1:3. 
+- Use the above dataset to fine tune the VGG.
+- Through experiment, the performance of VGG over perform VGG + SVM. It makes sense since VGG is better at extracting image features. 
+
+
+
+### Recap the forward and backward calculation of Fast RCNN
 
       |                | Predicted cat  | Predicted non-cat |
       | -------------- | -------------- | ----------------- |
       | Actual cat     | 3              | 2                 |
       | Actual non-cat | 1              | 4                 |
   - **Precision**: percentage of true cats in the recognized result: P = 3/(3 + 1) 
-  - **Recall**: percentage of true recognition cat of the all cat predictions: R = 3/(3 + 2)
-  - **Accuracy**: (3+4)/10
+
 
 - So we can solve that by choosing a single optimizing metric and decide that other metrics are satisfying. Ex:
   ```
@@ -61,20 +101,8 @@ Here are the course summary as its given on the course [link](https://www.course
   subject to running time < 100ms # satisficing metric
   ```
 
-- Let's take an example. In a cat classification example we have these metric results:
-
-  | Metric      | Classification error                                         |
-  | ----------- | ------------------------------------------------------------ |
-  | Algorithm A | 3% error (But a lot of porn images are treated as cat images here) |
-  | Algorithm B | 5% error                                                     |
-  - In the last example if we choose the best algorithm by metric it would be "A", but if the users decide it will be "B"
-  - Thus in this case, we want and need to change our metric. 
   - `OldMetric = (1/m) * sum(y_pred[i] != y[i] ,m)`
     - Where m is the number of Dev set items.
-  - `NewMetric = (1/sum(w[i])) * sum(w[i] * (y_pred[i] != y[i]) ,m)`
-    - where:
-       - `w[i] = 1                   if x[i] is not porn`
-       - `w[i] = 10                 if x[i] is porn`
 
 ## Faster RCNN
 ### Multi-task learning
