@@ -66,7 +66,8 @@ Here are the course summary as its given on the course [link](https://www.course
 ## Fast RCNN
 
 ### Key idea
-- 联合计算：将各个component combine together.
+- ``` 联合计算：将各个component combine together. ```
+- ` 联合计算：将各个component combine together. `
 
 ### To improve
 - Based on the 2000 candidate regions, try to improve the computation
@@ -105,7 +106,8 @@ Here are the course summary as its given on the course [link](https://www.course
     - Where m is the number of Dev set items.
 
 ## Faster RCNN
-### Multi-task learning
+### RPN
+### Anchor
 
 - Whereas in transfer learning, you have a sequential process where you learn from task A and then transfer that to task B. In multi-task learning, you start off simultaneously, trying to have one neural network do several things at the same time. And then each of these tasks helps hopefully all of the other tasks. 
 - Example:
