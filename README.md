@@ -7,12 +7,12 @@ This is the summary of the KaiKeBa course R-CNN, fast RCNN and faster RCNN.
 * [Structuring Machine Learning Projects](#structuring-machine-learning-projects)
    * [Table of contents](#table-of-contents)
    * [Course summary](#course-summary)
-   * [Regional CNN](#RCNN)
-      * [Orthogonalization](#orthogonalization)
+   * [Regional CNN](#Regional-CNN)
+      * [Four major components](#Four-major-components)
    * [Fast RCNN](#Fast-RCNN)
-      * [Carrying out error analysis](#carrying-out-error-analysis)
+      * [Single number evaluation metric](#Single-number-evaluation-metric)
    * [Faster RCNN](#Faster-RCNN)
-   	  * [Carrying out error analysis](#carrying-out-error-analysis)
+   	  * [Multi-task learning](#Multi-task-learning)
       
 ## Course summary
 
@@ -22,37 +22,24 @@ Here are the course summary as its given on the course [link](https://www.course
 > The Trios of RCNN will help you to understand how the detection algorithm innovate in order to improve the accuracy and efficiency.
 > Further, to understand how attention works in CV is another aspect to make your CV knowledge to a new level. 
 
-## -- Lesson One -- Regional CNN
+## Regional CNN
 
-1, Classifier: cbrp32: input(image) and output(one hot )
-2, Detection: boundiung box location: tranverse all the location and size of the bounding boxes
-3, Finding good bb candidante could improve the efficiency
-3', Training the classifer involve nagative and positive data preparation
-** So far, the moving bb classifier could solve the detection problem
+### Four major components
+- Selection search
+	1. Design the bb candidate: Selection search: segmentation -> greedy algo: similarity for neighbours
+	2. SS mainly find the candidate bounding box
+	
+- CNN feature extraction
+	1. Classifier: cbrp32: input(image) and output(one hot )
+	2. Alexnet
+- SVM classifier
+	1. Training the classifer involve nagative and positive data preparation
+- Bounding box regression
+	1. Detection: boundiung box location: tranverse all the location and size of the bounding boxes
+	2. Finding good bb candidante could improve the efficiency 
 
-Speed VS Accuracy
 
-RCNN prefer accuracy
-1, use the best classifer: Alexnet
-2, Design the bb candidate: Selection search: segmentation -> greedy algo: similarity for neighbour
-3, SS mainly find the candidate bounding box
-
-Bounding box regression:
-
-### Orthogonalization
-
-- Some deep learning developers know exactly what hyperparameter to tune in order to try to achieve one effect. This is a process we call orthogonalization.
-- In orthogonalization, you have some controls, but each control does a specific task and doesn't affect other controls.
-- For a supervised learning system to do well, you usually need to tune the knobs of your system to make sure that four things hold true - chain of assumptions in machine learning:
-  1. You'll have to fit training set well on cost function (near human level performance if possible).
-     - If it's not achieved you could try bigger network, another optimization algorithm (like Adam)...
-  2. Fit dev set well on cost function.
-     - If its not achieved you could try regularization, bigger training set...
-  3. Fit test set well on cost function.
-     - If its not achieved you could try bigger dev. set...
-  4. Performs well in real world.
-     - If its not achieved you could try change dev. set, change cost function...
-
+## Fast RCNN
 ### Single number evaluation metric
 
 - Its better and faster to set a single number evaluation metric for your project before you start it.
@@ -89,6 +76,7 @@ Bounding box regression:
        - `w[i] = 1                   if x[i] is not porn`
        - `w[i] = 10                 if x[i] is porn`
 
+## Faster RCNN
 ### Multi-task learning
 
 - Whereas in transfer learning, you have a sequential process where you learn from task A and then transfer that to task B. In multi-task learning, you start off simultaneously, trying to have one neural network do several things at the same time. And then each of these tasks helps hopefully all of the other tasks. 
