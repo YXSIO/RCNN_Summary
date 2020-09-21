@@ -8,17 +8,11 @@ This is the summary of the KaiKeBa course R-CNN, fast RCNN and faster RCNN.
    * [Table of contents](#table-of-contents)
    * [Course summary](#course-summary)
    * [Regional CNN](#RCNN)
-      * [Why ML Strategy](#why-ml-strategy)
       * [Orthogonalization](#orthogonalization)
-      * [Single number evaluation metric](#single-number-evaluation-metric)
-   * [Fast RCNN](#Fast-RCHH)
+   * [Fast RCNN](#Fast-RCNN)
       * [Carrying out error analysis](#carrying-out-error-analysis)
-      * [Cleaning up incorrectly labeled data](#cleaning-up-incorrectly-labeled-data)
-      * [Build your first system quickly, then iterate](#build-your-first-system-quickly-then-iterate)
-   * [Faster RCNN]
+   * [Faster RCNN](#Faster-RCNN)
    	  * [Carrying out error analysis](#carrying-out-error-analysis)
-      * [Cleaning up incorrectly labeled data](#cleaning-up-incorrectly-labeled-data)
-      * [Build your first system quickly, then iterate](#build-your-first-system-quickly-then-iterate)]
       
 ## Course summary
 
@@ -28,22 +22,22 @@ Here are the course summary as its given on the course [link](https://www.course
 > The Trios of RCNN will help you to understand how the detection algorithm innovate in order to improve the accuracy and efficiency.
 > Further, to understand how attention works in CV is another aspect to make your CV knowledge to a new level. 
 
+## -- Lesson One -- Regional CNN
 
-## ML Strategy 1
+1, Classifier: cbrp32: input(image) and output(one hot )
+2, Detection: boundiung box location: tranverse all the location and size of the bounding boxes
+3, Finding good bb candidante could improve the efficiency
+3', Training the classifer involve nagative and positive data preparation
+** So far, the moving bb classifier could solve the detection problem
 
-### Why ML Strategy
+Speed VS Accuracy
 
-- You have a lot of ideas for how to improve the accuracy of your deep learning system:
-  - Collect more data.
-  - Collect more diverse training set.
-  - Train algorithm longer with gradient descent.
-  - Try different optimization algorithm (e.g. Adam).
-  - Try bigger network.
-  - Try smaller network.
-  - Try dropout.
-  - Add L2 regularization.
-  - Change network architecture (activation functions, # of hidden units, etc.)
-- This course will give you some strategies to help analyze your problem to go in a direction that will help you get better results.
+RCNN prefer accuracy
+1, use the best classifer: Alexnet
+2, Design the bb candidate: Selection search: segmentation -> greedy algo: similarity for neighbour
+3, SS mainly find the candidate bounding box
+
+Bounding box regression:
 
 ### Orthogonalization
 
@@ -74,16 +68,6 @@ Here are the course summary as its given on the course [link](https://www.course
   - **Recall**: percentage of true recognition cat of the all cat predictions: R = 3/(3 + 2)
   - **Accuracy**: (3+4)/10
 
-
-### Satisfying and Optimizing metric
-
-- Its hard sometimes to get a single number evaluation metric. Ex:
-
-  | Classifier | F1   | Running time |
-  | ---------- | ---- | ------------ |
-  | A          | 90%  | 80 ms        |
-  | B          | 92%  | 95 ms        |
-  | C          | 92%  | 1,500 ms     |
 - So we can solve that by choosing a single optimizing metric and decide that other metrics are satisfying. Ex:
   ```
   Maximize F1                     # optimizing metric
@@ -104,56 +88,6 @@ Here are the course summary as its given on the course [link](https://www.course
     - where:
        - `w[i] = 1                   if x[i] is not porn`
        - `w[i] = 10                 if x[i] is porn`
-
-- This is actually an example of an orthogonalization where you should take a machine learning problem and break it into distinct steps: 
-
-  1. Figure out how to define a metric that captures what you want to do - place the target. 
-  2. Worry about how to actually do well on this metric - how to aim/shoot accurately at the target.
-
-- Conclusion: if doing well on your metric + dev/test set doesn't correspond to doing well in your application, change your metric and/or dev/test set.
-
-
-### Avoidable bias
-
-- Suppose that the cat classification algorithm gives these results:
-
-  | Humans             | 1%   | 7.5% |
-  | ------------------ | ---- | ---- |
-  | **Training error** | 8%   | 8%   |
-  | **Dev Error**      | 10%  | 10%  |
-  - In the left example, because the human level error is 1% then we have to focus on the **bias**.
-  - In the right example, because the human level error is 7.5% then we have to focus on the **variance**.
-  - The human-level error as a proxy (estimate) for Bayes optimal error. Bayes optimal error is always less (better), but human-level in most cases is not far from it.
-  - You can't do better than Bayes error unless you are overfitting.
-  - `Avoidable bias = Training error - Human (Bayes) error`
-  - `Variance = Dev error - Training error`
-
-### Understanding human-level performance
-
-- When choosing human-level performance, it has to be chosen in the terms of what you want to achieve with the system.
-- You might have multiple human-level performances based on the human experience. Then you choose the human-level performance (proxy for Bayes error) that is more suitable for the system you're trying to build.
-- Improving deep learning algorithms is harder once you reach a human-level performance.
-- Summary of bias/variance with human-level performance:
-  1. human-level error (proxy for Bayes error)
-     - Calculate `avoidable bias = training error - human-level error`
-     - If **avoidable bias** difference is the bigger, then it's *bias* problem and you should use a strategy for **bias** resolving.
-  2. training error
-     - Calculate `variance = dev error - training error`
-     - If **variance** difference is bigger, then you should use a strategy for **variance** resolving.
-  3. Dev error
-- So having an estimate of human-level performance gives you an estimate of Bayes error. And this allows you to more quickly make decisions as to whether you should focus on trying to reduce a bias or trying to reduce the variance of your algorithm.
-- These techniques will tend to work well until you surpass human-level performance, whereupon you might no longer have a good estimate of Bayes error that still helps you make this decision really clearly. 
-
-### Surpassing human-level performance
-
-- In some problems, deep learning has surpassed human-level performance. Like:
-  - Online advertising.
-  - Product recommendation.
-  - Loan approval.
-- The last examples are not natural perception task, rather learning on structural data. Humans are far better in natural perception tasks like computer vision and speech recognition.
-- It's harder for machines to surpass human-level performance in natural perception task. But there are already some systems that achieved it.
-
-
 
 ### Multi-task learning
 
