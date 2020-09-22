@@ -64,10 +64,11 @@ Here are the course summary as its given on the course [link](https://www.course
 ## Fast RCNN
 
 ### Key idea
-- ``` 联合计算：将各个component combine together. ```
+``` 
+- 联合计算：将各个component combine together.
 	- Combine CNN and SVM together through VGG
 	- Jointly training LR and Classification together via combine the CE loss with the smooth L1 loss.
-- ` 联合计算：将各个component combine together, since there is limited room to improve for each individual component. `
+ ```
 
 ### To improve
 - Based on the 2000 candidate regions, try to improve the computation
@@ -91,19 +92,6 @@ Here are the course summary as its given on the course [link](https://www.course
 
 ### Recap the forward and backward calculation of Fast RCNN
 
-      |                | Predicted cat  | Predicted non-cat |
-      | -------------- | -------------- | ----------------- |
-      | Actual cat     | 3              | 2                 |
-      | Actual non-cat | 1              | 4                 |
-
-
-- So we can solve that by choosing a single optimizing metric and decide that other metrics are satisfying. Ex:
-  ```
-  Maximize F1                     # optimizing metric
-  subject to running time < 100ms # satisficing metric
-  ```
-
-  - `OldMetric = (1/m) * sum(y_pred[i] != y[i] ,m)`
 
 ## Faster RCNN
 ### Key idea
@@ -115,19 +103,6 @@ Here are the course summary as its given on the course [link](https://www.course
 ### Anchor
 
 ### Multi-task loss
-
-
-### What is end-to-end deep learning?
-
-- Some systems have multiple stages to implement. An end-to-end deep learning system implements all these stages with a single NN.
-- Example 1:
-  - Speech recognition system:
-    ```
-    Audio ---> Features --> Phonemes --> Words --> Transcript    # non-end-to-end system
-    Audio ---------------------------------------> Transcript    # end-to-end deep learning system
-    ```
-  - End-to-end deep learning gives data more freedom, it might not use phonemes when training!
-
 
 
 <br><br>
