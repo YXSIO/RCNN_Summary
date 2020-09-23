@@ -69,6 +69,7 @@ Here are the course summary as its given on the course [link](https://www.course
 	- Combine CNN and SVM together through VGG
 	- Jointly training LR and Classification together via combine the CE loss with the smooth L1 loss.
  ```
+- ROIPooling will sample image in different size to the same output. Although ROIPooling will lose information, multiple channel pooling will minimize such lose. 
 
 ### To improve
 - Based on the 2000 candidate regions, try to improve the computation
@@ -92,17 +93,36 @@ Here are the course summary as its given on the course [link](https://www.course
 
 ### Recap the forward and backward calculation of Fast RCNN
 
-
 ## Faster RCNN
 ### Key idea
-- Integrate SS into CNN end to end process
-
+- Deep convolution generate pixels which represent different size of region in the original image. 
+- Convolution could be treated as moving window classification: One time convolution is equivalent to many times of sliding window classification. 
+- Each classification header represent a anchor box with certain size, since the shape of anchor box is a parameter in the classification header, which could be learnt when given the correspond label. 
 
 ### RPN
+- Insert two extra layers of convolutions to Integrate SS into CNN process.
+	- 3 X 3 X 256 is the first convolution layer
+	- Assuming 9 anchor boxes: 256 X 1 X 1 X 18 for classification and 256 X 1 X 1 X 36 (4X9) for bounding box regression.
+- The final output of RPN is the candidate boxes. These boxes will be used to extract regions in the feature maps of the original image. 
+RPN is two stages since it first replace ss and then apply regression and classification again to generate the final output. 
 
 ### Anchor
+- Classification header consists of 6 Conv1X1
+- Each pixel in the final feature map corresponds to a anchor box in the original image. 
+- Anchor box definition: 
+- The final box candidate = total number of pixel * 6. E.g.: raw image 400 by 400. Sampling rate 16. The final feature map shape is 25 by 25. 
 
-### Multi-task loss
+
+### Training process
+1. Training VGG and fine tune with selected positive and negative labels. 
+2. VGG + RPN
+3. VGG + RPN + Classification header to perform finer classification and regression.
+4. Iterate over to fine tune RPN and header with (LR=0)
+
+### Data preparation for training
+1. VGG: ImageNet 1000 class data
+2. RPN: Select candidate window from sliding window and modify the location of candidate to output as ROIs.
+	- The loss is still adjoint loss between softmax loss and smooth L1 loss.  
 
 
 <br><br>
