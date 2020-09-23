@@ -15,9 +15,6 @@ This is the summary of the KaiKeBa course R-CNN, fast RCNN and faster RCNN. Here
    	  * [To improve](#To-improve)
       
 ## Course summary
-
-Here are the course summary as its given on the course [link](https://www.coursera.org/learn/machine-learning-projects):
-
 > You will learn how to build a detection system based on classifier. For further improvement, research used to focus on efficiency(Yolo), as well as accuracy.
 > The Trios of RCNN will help you to understand how the detection algorithm innovate in order to improve the accuracy and efficiency.
 > Further, to understand how attention works in CV is another aspect to make your CV knowledge to a new level. 
@@ -52,7 +49,7 @@ Here are the course summary as its given on the course [link](https://www.course
 	
 - Bounding box regression
 	1. Detection: boundiung box location: tranverse all the location and size of the bounding boxes.
-	2. Finding good bb candidante could improve the efficiency 
+	2. Finding good bb candidate could improve the efficiency 
 	3. Different class correspond to different LR, since each class has different feature maps.
 	4. For each class, use the extracted feature as x and train four different LR. 
 	5. Why use pooling5? Answer: pooling maintain the relative pixel relationship. 
@@ -109,7 +106,6 @@ RPN is two stages since it first replace ss and then apply regression and classi
 ### Anchor
 - Classification header consists of 6 Conv1X1
 - Each pixel in the final feature map corresponds to a anchor box in the original image. 
-- Anchor box definition: 
 - The final box candidate = total number of pixel * 6. E.g.: raw image 400 by 400. Sampling rate 16. The final feature map shape is 25 by 25. 
 
 
