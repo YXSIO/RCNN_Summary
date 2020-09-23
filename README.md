@@ -120,7 +120,5 @@ RPN is two stages since it first replace ss and then apply regression and classi
 2. RPN: Select candidate window from sliding window and modify the location of candidate to output as ROIs.
 	- The loss is still adjoint loss between softmax loss and smooth L1 loss.  
 
-
-<br><br>
 <br><br>
 These Notes were made by [Yuxiang Zhang](mailto:kimiyuxiang@gmail.com) @2020
