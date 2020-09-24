@@ -120,7 +120,7 @@ RPN is two stages since it first replace ss and then apply regression and classi
 ### Data preparation for training
 1. VGG: ImageNet 1000 class data
 2. RPN: Select candidate window from sliding window and modify the location of candidate to output as ROIs.
-	- The loss is still adjoint loss between softmax loss and smooth L1 loss.  
+	- The loss is still the adjoint loss between softmax loss and smooth L1 loss.  
 
 
 ## Misc
