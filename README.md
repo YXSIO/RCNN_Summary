@@ -15,7 +15,9 @@ This is the summary of the KaiKeBa course R-CNN, fast RCNN and faster RCNN. Here
    	  * [To improve](#To-improve)
       
 ## Course summary
-> You will learn how to build a detection system based on classifier. For further improvement, research used to focus on efficiency(Yolo), as well as accuracy.
+> You will learn how to build a detection system based on classifier. 
+> R-CNN is a state-of-the-art visual object detection system that combines bottom-up region proposals with rich features computed by a convolutional neural network. 
+> At the time of its release, R-CNN improved the previous best detection performance on PASCAL VOC 2012 by 30% relative, going from 40.9% to 53.3% mean average precision.
 > The Trios of RCNN will help you to understand how the detection algorithm innovate in order to improve the accuracy and efficiency.
 > Further, to understand how attention works in CV is another aspect to make your CV knowledge to a new level. 
 
@@ -120,5 +122,8 @@ RPN is two stages since it first replace ss and then apply regression and classi
 2. RPN: Select candidate window from sliding window and modify the location of candidate to output as ROIs.
 	- The loss is still adjoint loss between softmax loss and smooth L1 loss.  
 
+
+## Misc
+### Mean average precision: mean over all the classes and average over all the IOU threshold for each individual class. 
 <br><br>
 These Notes were made by [Yuxiang Zhang](mailto:kimiyuxiang@gmail.com) @2020
